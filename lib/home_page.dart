@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert'; //for JsonDecode
 
 class HomePage extends StatefulWidget {
+  List currencies;
+  HomePage(this.currencies);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List currencies;
   final List<MaterialColor> colors = [Colors.blue, Colors.indigo, Colors.red];
-
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCurrencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,22 +22,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<List> getCurrencies() async {
-    String url = 'https://api.coinmarketcap.com/v1/ticker/';
-    http.Response response = await http.get(url);
-    currencies = jsonDecode(response.body);
-    return currencies;
-  }
-
   Widget _cryptoWidget() {
     return Container(
       child: Column(
         children: <Widget>[
           Flexible(
             child: ListView.builder(
-              itemCount: currencies.length,
+              itemCount: widget.currencies.length,
               itemBuilder: (BuildContext context, int index) {
-                final Map currency = currencies[index];
+                final Map currency = widget.currencies[index];
                 final MaterialColor color = colors[index % colors.length];
                 return _getListItemUI(currency, color);
               },
