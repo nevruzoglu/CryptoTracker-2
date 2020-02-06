@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  List currencies;
+  final List currencies;
   HomePage(this.currencies);
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<MaterialColor> colors = [Colors.blue, Colors.indigo, Colors.red];
+  final List<MaterialColor> colors = [Colors.blue, Colors.indigo, Colors.green];
   @override
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _cryptoWidget() {
     return Container(
+      color: Color(0xff282539),
       child: Column(
         children: <Widget>[
           Flexible(
@@ -42,22 +43,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   ListTile _getListItemUI(Map currency, MaterialColor color) {
+    var usd = double.parse(currency['price_usd']);
+
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: color,
+        foregroundColor: Colors.white,
         child: Text(currency['name'][0]),
       ),
-      title:
-          Text(currency['name'], style: TextStyle(fontWeight: FontWeight.bold)),
+      title: Text(currency['name'],
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
       subtitle: _getSubtitleText(
-          currency['price_usd'], currency['percent_change_1h']),
+          usd.toStringAsFixed(4), currency['percent_change_1h']),
       isThreeLine: true,
     );
   }
 
   Widget _getSubtitleText(String priceUSD, String percentChange) {
-    TextSpan priceTextWidget =
-        TextSpan(text: '\$$priceUSD\n', style: TextStyle(color: Colors.black));
+    TextSpan priceTextWidget = TextSpan(
+        text: '\$$priceUSD\n',
+        style: TextStyle(
+          color: Colors.white,
+        ));
     String percentageChangeText = '1 hour : $percentChange%';
     TextSpan percentageChangeTextWidget;
 
