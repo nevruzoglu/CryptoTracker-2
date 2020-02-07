@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 Future<Btc> getCurrencies() async {
   String url =
       'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
-  http.Response response =
-      await http.get(url, headers: {"X-CMC_PRO_API_KEY": "api-key enter"});
+  http.Response response = await http.get(url,
+      headers: {"X-CMC_PRO_API_KEY": "api-key enter"}); // enter api key
   return Btc.fromMap(jsonDecode(response.body));
 }
