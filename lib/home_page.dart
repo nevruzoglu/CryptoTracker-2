@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'models.dart';
+
 class HomePage extends StatefulWidget {
-  final List currencies;
+  final Btc currencies;
   HomePage(this.currencies);
   @override
   _HomePageState createState() => _HomePageState();
@@ -29,9 +31,9 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Flexible(
             child: ListView.builder(
-              itemCount: widget.currencies.length,
+              itemCount: widget.currencies.data.length,
               itemBuilder: (BuildContext context, int index) {
-                final Map currency = widget.currencies[index];
+                var currency = widget.currencies.data[index];
                 final MaterialColor color = colors[index % colors.length];
                 return _getListItemUI(currency, color);
               },
@@ -42,33 +44,32 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ListTile _getListItemUI(Map currency, MaterialColor color) {
-    var usd = double.parse(currency['price_usd']);
+  ListTile _getListItemUI(Datum currency, MaterialColor color) {
+    var usd = currency.quote.usd.price;
 
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: color,
         foregroundColor: Colors.white,
-        child: Text(currency['name'][0]),
+        child: Text(currency.name[0]),
       ),
-      title: Text(currency['name'],
+      title: Text(currency.name,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-      subtitle: _getSubtitleText(
-          usd.toStringAsFixed(4), currency['percent_change_1h']),
+      subtitle: _getSubtitleText(usd, currency.quote.usd.percentChange1H),
       isThreeLine: true,
     );
   }
 
-  Widget _getSubtitleText(String priceUSD, String percentChange) {
+  Widget _getSubtitleText(double priceUSD, double percentChange) {
     TextSpan priceTextWidget = TextSpan(
-        text: '\$$priceUSD\n',
+        text: '\$${priceUSD.toStringAsFixed(4)}\n',
         style: TextStyle(
           color: Colors.white,
         ));
     String percentageChangeText = '1 hour : $percentChange%';
     TextSpan percentageChangeTextWidget;
 
-    if (double.parse(percentChange) > 0) {
+    if (percentChange > 0) {
       percentageChangeTextWidget = TextSpan(
           text: percentageChangeText, style: TextStyle(color: Colors.green));
     } else {
