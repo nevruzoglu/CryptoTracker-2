@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'models.dart';
+import 'data/models.dart';
 
 void main() async {
   var currencies = await getCurrencies();

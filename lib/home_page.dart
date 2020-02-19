@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'models.dart';
+import 'data/models.dart';
 
 class HomePage extends StatefulWidget {
   final Btc currencies;
